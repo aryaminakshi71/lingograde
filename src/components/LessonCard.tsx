@@ -1,0 +1,1 @@
+// Component to show lesson summary

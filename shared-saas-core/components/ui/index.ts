@@ -1,0 +1,33 @@
+// UI Components Index - All shared components
+
+export {Button, buttonVariants} from './button'
+export {Input} from './input'
+export {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter} from './card'
+export {Badge, badgeVariants} from './badge'
+export {Alert, AlertTitle, AlertDescription} from './alert'
+export {Textarea} from './textarea'
+export {Select} from './select'
+export {Loading} from './loading'
+export {Spinner} from './spinner'
+export {Modal} from './modal'
+export {ConfirmDialog} from './confirm-dialog'
+export {FormModal} from './form-modal'
+export {ProgressBar} from './progress-bar'
+export {EmptyState} from './empty-state'
+export {Dropdown, DropdownItem} from './dropdown'
+export {WebSocketProvider, useWebSocket} from './websocket-provider'
+export {DemoModal} from './demo-modal'
+export {Avatar, AvatarImage, AvatarFallback} from './avatar'
+export {Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogTrigger} from './dialog'
+export {Tabs, TabsList, TabsTrigger, TabsContent} from './tabs'
+export {DataTable} from './data-table'
+export {Sidebar} from './sidebar'
+export {ErrorBoundary, withErrorBoundary, createErrorBoundary, AsyncErrorBoundary} from './error-boundary'
+// Theme (next-themes)
+export {ThemeProvider} from './theme-provider'
+export {ThemeToggle} from './theme-toggle'
+
+// Dark mode (deprecated - use ThemeProvider instead)
+export {DarkModeProvider, useDarkMode} from './dark-mode-provider'
+export {ToastProvider} from './toast-provider'
+export {CommandPalette} from './command-palette'

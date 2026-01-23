@@ -3,16 +3,24 @@ import { z } from 'zod'
 import { db, languages, courses, units, lessons, exercises } from '../../db'
 import { eq, and, desc, asc } from 'drizzle-orm'
 import { requireAuth } from '../middleware'
+import { cache } from '../../lib/redis'
 
 export const lessonsRouter = router({
   getLanguages: procedure
     .query(async ({ input }) => {
-      const result = await db
-        .select()
-        .from(languages)
-        .where(eq(languages.isActive, true))
-        .orderBy(asc(languages.name))
-      return result
+      // Cache languages (24 hour TTL - rarely changes)
+      return cache.getOrCache(
+        'languages:active',
+        async () => {
+          const result = await db
+            .select()
+            .from(languages)
+            .where(eq(languages.isActive, true))
+            .orderBy(asc(languages.name))
+          return result
+        },
+        86400 // 24 hours
+      )
     }),
 
   getCourses: procedure
@@ -25,19 +33,25 @@ export const lessonsRouter = router({
     )
     .use(requireAuth)
     .query(async ({ input, ctx }) => {
-      const conditions = [eq(courses.isPublished, true)]
+      // Cache courses list (1 hour TTL)
+      const cacheKey = `courses:${JSON.stringify(input || {})}`;
       
-      if (input?.languageId) {
-        conditions.push(eq(courses.languageId, input.languageId))
-      }
-      if (input?.difficulty) {
-        conditions.push(eq(courses.difficulty, input.difficulty))
-      }
-      if (input?.featured !== undefined) {
-        conditions.push(eq(courses.isFeatured, input.featured))
-      }
+      return cache.getOrCache(
+        cacheKey,
+        async () => {
+          const conditions = [eq(courses.isPublished, true)]
+          
+          if (input?.languageId) {
+            conditions.push(eq(courses.languageId, input.languageId))
+          }
+          if (input?.difficulty) {
+            conditions.push(eq(courses.difficulty, input.difficulty))
+          }
+          if (input?.featured !== undefined) {
+            conditions.push(eq(courses.isFeatured, input.featured))
+          }
 
-      const result = await db
+          const result = await db
         .select({
           course: courses,
           language: languages,

@@ -2,12 +2,19 @@ import { router, procedure } from '@orpc/server'
 import { db, userProgress, streaks, lessons, courses } from '../../db'
 import { eq, and, sql, desc } from 'drizzle-orm'
 import { requireAuth } from '../middleware'
+import { cache } from '../../lib/redis'
 
 export const dashboardRouter = router({
   getStats: procedure
     .use(requireAuth)
     .query(async ({ ctx }) => {
-      const [completedLessonsResult] = await db
+      // Cache dashboard stats (5 min TTL)
+      const cacheKey = `dashboard:stats:${ctx.user.id}`;
+      
+      return cache.getOrCache(
+        cacheKey,
+        async () => {
+          const [completedLessonsResult] = await db
         .select({ count: sql<number>`count(*)` })
         .from(userProgress)
         .where(
@@ -45,11 +52,14 @@ export const dashboardRouter = router({
         )
         .limit(5)
 
-      return {
-        completedLessons: Number(completedLessonsResult?.count) || 0,
-        totalXP: Number(totalXPResult?.total) || 0,
-        currentStreak: currentStreak?.currentStreak || 0,
-        activeCourses: activeCoursesList.length,
-      }
+          return {
+            completedLessons: Number(completedLessonsResult?.count) || 0,
+            totalXP: Number(totalXPResult?.total) || 0,
+            currentStreak: currentStreak?.currentStreak || 0,
+            activeCourses: activeCoursesList.length,
+          }
+        },
+        300 // 5 minutes
+      )
     }),
 })

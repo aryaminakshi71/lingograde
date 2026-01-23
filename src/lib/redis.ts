@@ -105,6 +105,31 @@ export const cache = {
     await redis.del(key)
   },
 
+  /**
+   * Get or fetch and cache
+   */
+  async getOrCache<T>(
+    key: string,
+    fetcher: () => Promise<T>,
+    ttlSeconds: number = 3600, // 1 hour default
+  ): Promise<T> {
+    const cached = await this.get<T>(key);
+    if (cached !== null) {
+      return cached;
+    }
+
+    const value = await fetcher();
+    await this.set(key, value, ttlSeconds);
+    return value;
+  },
+
+  /**
+   * Invalidate cache
+   */
+  async invalidate(key: string): Promise<void> {
+    await this.delete(key);
+  },
+
   async exists(key: string): Promise<boolean> {
     if (!redis) return false
     return (await redis.exists(key)) === 1

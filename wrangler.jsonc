@@ -1,0 +1,38 @@
+{
+    "$schema": "./node_modules/wrangler/config-schema.json",
+    "name": "lingograde-web",
+    "main": "./src/server.ts",
+    "compatibility_date": "2025-01-10",
+    "compatibility_flags": [
+        "nodejs_compat",
+        "nodejs_compat_populate_process_env"
+    ],
+    "assets": {
+        "binding": "ASSETS"
+    },
+    "vars": {
+        "NODE_ENV": "development"
+    },
+    "hyperdrive": [
+        {
+            "binding": "DATABASE",
+            "id": "placeholder-create-hyperdrive-first",
+            "localConnectionString": "postgresql://postgres:password@localhost:5432/lingograde"
+        }
+    ],
+    "r2_buckets": [
+        {
+            "binding": "BUCKET",
+            "bucket_name": "lingograde-uploads"
+        }
+    ],
+    "kv_namespaces": [
+        {
+            "binding": "CACHE",
+            "id": "placeholder-kv-id"
+        }
+    ],
+    "ai": {
+        "binding": "AI"
+    }
+}

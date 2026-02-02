@@ -155,7 +155,7 @@ function generateTemplate(template: string, data: Record<string, any>): string {
       <body>
         <div class="container">
           <div class="hero">
-            <h1>${data.headline || 'Discover What's New'}</h1>
+            <h1>${data.headline || "Discover What's New"}</h1>
             <p>${data.subheadline || ''}</p>
           </div>
           <div class="content">

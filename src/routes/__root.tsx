@@ -10,6 +10,8 @@ import { ThemeProvider, ToastProvider } from '@shared/saas-core';
 import { Analytics, usePageTracking } from '../components/Analytics';
 import { ErrorPage, NotFoundPage } from '../components/error';
 import { generateOrganizationSchema, generateWebSiteSchema, getLingoGradeOrganizationSchema } from '../lib/structured-data';
+import { registerServiceWorker } from '../lib/service-worker';
+import { useEffect } from 'react';
 
 import stylesCss from '../styles/globals.css?url';
 
@@ -42,6 +44,11 @@ export const Route = createRootRoute({
 
 function RootDocument() {
   usePageTracking();
+
+  // Register service worker
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
 
   const organizationSchema = generateOrganizationSchema(getLingoGradeOrganizationSchema())
   const websiteSchema = generateWebSiteSchema({

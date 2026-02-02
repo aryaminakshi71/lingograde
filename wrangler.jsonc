@@ -7,6 +7,7 @@
         "nodejs_compat",
         "nodejs_compat_populate_process_env"
     ],
+    "account_id": "210c05cff4fc10e6aed35294cd45743e",
     "assets": {
         "binding": "ASSETS"
     },
@@ -34,5 +35,8 @@
     ],
     "ai": {
         "binding": "AI"
+    },
+    "dev": {
+        "port": 3006
     }
 }

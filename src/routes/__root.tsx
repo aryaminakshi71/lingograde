@@ -11,6 +11,7 @@ import { Analytics, usePageTracking } from '../components/Analytics';
 import { ErrorPage, NotFoundPage } from '../components/error';
 import { generateOrganizationSchema, generateWebSiteSchema, getLingoGradeOrganizationSchema } from '../lib/structured-data';
 import { registerServiceWorker } from '../lib/service-worker';
+import { addSkipLink } from '../lib/accessibility';
 import { useEffect } from 'react';
 
 import stylesCss from '../styles/globals.css?url';
@@ -48,6 +49,8 @@ function RootDocument() {
   // Register service worker
   useEffect(() => {
     registerServiceWorker();
+    // Add skip link for accessibility
+    addSkipLink("main-content", "Skip to main content");
   }, []);
 
   const organizationSchema = generateOrganizationSchema(getLingoGradeOrganizationSchema())
@@ -88,7 +91,7 @@ function RootDocument() {
             enableSystem
             disableTransitionOnChange
           >
-            <main id="main-content">
+            <main id="main-content" tabIndex={-1}>
               <Outlet />
             </main>
             <ToastProvider />

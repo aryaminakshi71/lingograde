@@ -8,8 +8,12 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import path from "path";
 
 export default defineConfig(({ mode }) => {
+  // Capture PORT from shell BEFORE loadEnv (which might load PORT from .env)
+  const shellPort = process.env.PORT;
   // Load env from current directory since NOT a monorepo structure with apps/web
   const env = loadEnv(mode, process.cwd(), "");
+  // PORT from shell environment takes highest priority
+  const port = shellPort || env.PORT || "3009";
   process.env = { ...process.env, ...env };
 
   return {
@@ -31,9 +35,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: Number(process.env.PORT) || 3000,
+      port: Number(port),
       host: true,
-      strictPort: false,
+      strictPort: true,
     },
     resolve: {
       alias: {
@@ -43,7 +47,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       viteTsConfigPaths(),
-      ...(process.env.SKIP_CLOUDFLARE !== 'true' ? [
+      ...(process.env.SKIP_CLOUDFLARE !== 'true' && process.env.WRANGLER_REMOTE !== 'false' ? [
         cloudflare({
           viteEnvironment: { name: 'ssr' },
           persist: true,

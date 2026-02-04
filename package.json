@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "cf-typegen": "wrangler types",
-    "dev": "bun run --bun vite",
+    "dev": "WRANGLER_REMOTE=false bun run --bun vite",
     "build": "bun run --bun vite build",
     "build:analyze": "ANALYZE=true bun run --bun vite build",
     "start": "bun run --bun .output/server/index.mjs",

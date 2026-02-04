@@ -28,7 +28,24 @@ export default {
 
     // Handle API routes
     if (url.pathname.startsWith("/api")) {
-      // API routes are handled by the RPC handler
+      // Health check endpoint
+      if (url.pathname === "/api/health") {
+        return new Response(
+          JSON.stringify({
+            status: "ok",
+            timestamp: new Date().toISOString(),
+            version: "1.0.0",
+          }),
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+      
+      // Other API routes are handled by the RPC handler
       // This will be handled by the route handler
     }
 

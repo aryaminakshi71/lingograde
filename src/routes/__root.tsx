@@ -1,105 +1,51 @@
-import {
-  HeadContent,
-  Scripts,
-  createRootRoute,
-  Outlet,
-} from '@tanstack/react-router';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '../lib/orpc-query';
-import { ThemeProvider, ToastProvider } from '@shared/saas-core';
-import { Analytics, usePageTracking } from '../components/Analytics';
-import { ErrorPage, NotFoundPage } from '../components/error';
-import { generateOrganizationSchema, generateWebSiteSchema, getLingoGradeOrganizationSchema } from '../lib/structured-data';
-import { registerServiceWorker } from '../lib/service-worker';
-import { addSkipLink } from '../lib/accessibility';
-import { useEffect } from 'react';
-
-import stylesCss from '../styles/globals.css?url';
+import { HeadContent, Scripts, Outlet, createRootRoute } from '@tanstack/react-router'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/lib/orpc-query'
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LingoGrade - Language Learning Platform | Master Languages Online" },
-      { name: "description", content: "Comprehensive language learning platform with interactive lessons, progress tracking, and personalized learning paths. Master new languages at your own pace." },
-      { name: "keywords", content: "language learning, online language courses, language education, learn languages, language platform, multilingual learning" },
-      { property: "og:title", content: "LingoGrade - Language Learning Platform" },
-      { property: "og:description", content: "Master new languages with our comprehensive online language learning platform." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "index, follow" },
-    ],
-    links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://api.your-domain.com" },
-      { rel: "stylesheet", href: stylesCss },
-      { rel: "icon", href: "/favicon.ico" },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: 'LingoGrade - Language Learning & Assessment' },
+      {
+        name: 'description',
+        content:
+          'Language learning platform with AI-powered assessment and personalized lessons.',
+      },
     ],
   }),
   component: RootDocument,
-  errorComponent: ({ error }) => <ErrorPage error={error} />,
-  notFoundComponent: () => <NotFoundPage />,
-});
+  notFoundComponent: () => (
+    <html lang="en">
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+          <div className="max-w-md w-full rounded-lg bg-white p-6 text-center shadow">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">404</h1>
+            <p className="text-gray-600">The page you are looking for does not exist.</p>
+          </div>
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  ),
+})
 
 function RootDocument() {
-  usePageTracking();
-
-  // Register service worker
-  useEffect(() => {
-    registerServiceWorker();
-    // Add skip link for accessibility
-    addSkipLink("main-content", "Skip to main content");
-  }, []);
-
-  const organizationSchema = generateOrganizationSchema(getLingoGradeOrganizationSchema())
-  const websiteSchema = generateWebSiteSchema({
-    name: 'LingoGrade',
-    url: import.meta.env.VITE_PUBLIC_SITE_URL || 'https://lingograde.your-domain.com',
-    description: 'AI-powered language learning platform with personalized lessons.',
-  })
-
   return (
     <html lang="en">
       <head>
         <HeadContent />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
       </head>
       <body>
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white focus:rounded-br-lg"
-        >
-          Skip to main content
-        </a>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <main id="main-content" tabIndex={-1}>
-              <Outlet />
-            </main>
-            <ToastProvider />
-            <Analytics />
-            <Scripts />
-          </ThemeProvider>
+          <Outlet />
+          <Scripts />
         </QueryClientProvider>
       </body>
     </html>
-  );
+  )
 }

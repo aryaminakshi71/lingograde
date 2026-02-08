@@ -1,4 +1,4 @@
-import { router, procedure } from '@orpc/server'
+import { os } from '@orpc/server'
 import { z } from 'zod'
 import { db, speechAttempts } from '../../db'
 import { eq, and, desc } from 'drizzle-orm'
@@ -23,9 +23,9 @@ const speechAttemptSchema = z.object({
   feedback: z.string().optional(),
 })
 
-export const speechRouter = router({
+export const speechRouter = {
   // Transcribe audio to text
-  transcribe: procedure
+  transcribe: os
     .input(
       z.object({
         audioBase64: z.string(),
@@ -33,7 +33,7 @@ export const speechRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       // Rate limit check
       const rateLimit = await checkRateLimit('speech', ctx.user.id)
       if (!rateLimit.success) {
@@ -61,7 +61,7 @@ export const speechRouter = router({
     }),
 
   // Assess pronunciation
-  assess: procedure
+  assess: os
     .input(
       z.object({
         targetText: z.string(),
@@ -70,7 +70,7 @@ export const speechRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const rateLimit = await checkRateLimit('speech', ctx.user.id)
       if (!rateLimit.success) {
         throw new Error('Rate limit exceeded. Please try again later.')
@@ -108,7 +108,7 @@ export const speechRouter = router({
     }),
 
   // Text-to-speech
-  synthesize: procedure
+  synthesize: os
     .input(
       z.object({
         text: z.string(),
@@ -117,7 +117,7 @@ export const speechRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const rateLimit = await checkRateLimit('speech', ctx.user.id)
       if (!rateLimit.success) {
         throw new Error('Rate limit exceeded. Please try again later.')
@@ -142,7 +142,7 @@ export const speechRouter = router({
     }),
 
   // Grammar correction
-  correctGrammar: procedure
+  correctGrammar: os
     .input(
       z.object({
         text: z.string(),
@@ -150,7 +150,7 @@ export const speechRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const rateLimit = await checkRateLimit('speech', ctx.user.id)
       if (!rateLimit.success) {
         throw new Error('Rate limit exceeded. Please try again later.')
@@ -169,7 +169,7 @@ export const speechRouter = router({
     }),
 
   // Generate practice sentences
-  generatePractice: procedure
+  generatePractice: os
     .input(
       z.object({
         topic: z.string(),
@@ -179,7 +179,7 @@ export const speechRouter = router({
       })
     )
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const rateLimit = await checkRateLimit('speech', ctx.user.id)
       if (!rateLimit.success) {
         throw new Error('Rate limit exceeded. Please try again later.')
@@ -203,10 +203,10 @@ export const speechRouter = router({
     }),
 
   // Create manual attempt record
-  createAttempt: procedure
+  createAttempt: os
     .input(speechAttemptSchema)
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [attempt] = await db
         .insert(speechAttempts)
         .values({
@@ -218,7 +218,7 @@ export const speechRouter = router({
     }),
 
   // Get user's attempts
-  getAttempts: procedure
+  getAttempts: os
     .input(
       z
         .object({
@@ -228,7 +228,7 @@ export const speechRouter = router({
         .optional()
     )
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const attempts = await db
         .select()
         .from(speechAttempts)
@@ -240,10 +240,10 @@ export const speechRouter = router({
     }),
 
   // Get single attempt
-  getAttempt: procedure
+  getAttempt: os
     .input(z.object({ id: z.number() }))
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [attempt] = await db
         .select()
         .from(speechAttempts)
@@ -259,4 +259,4 @@ export const speechRouter = router({
       }
       return attempt
     }),
-})
+}

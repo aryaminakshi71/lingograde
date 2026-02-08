@@ -1,13 +1,13 @@
-import { router, procedure } from '@orpc/server'
+import { os } from '@orpc/server'
 import { z } from 'zod'
 import { db, userProgress, lessons, courses, streaks } from '../../db'
 import { eq, and, desc } from 'drizzle-orm'
 import { requireAuth } from '../middleware'
 
-export const progressRouter = router({
-  getUserProgress: procedure
+export const progressRouter = {
+  getUserProgress: os
     .use(requireAuth)
-    .query(async ({ ctx }) => {
+    .handler(async ({ context: ctx }) => {
       const progressList = await db
         .select({
           progress: userProgress,
@@ -19,7 +19,7 @@ export const progressRouter = router({
         .innerJoin(courses, eq(lessons.courseId, courses.id))
         .where(eq(userProgress.userId, ctx.user.id))
         .orderBy(desc(userProgress.updatedAt))
-      
+
       return progressList.map(p => ({
         ...p.progress,
         lesson: {
@@ -29,10 +29,10 @@ export const progressRouter = router({
       }))
     }),
 
-  getLessonProgress: procedure
+  getLessonProgress: os
     .input(z.object({ lessonId: z.number() }))
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [progress] = await db
         .select({
           progress: userProgress,
@@ -47,14 +47,14 @@ export const progressRouter = router({
           )
         )
         .limit(1)
-      
+
       return progress ? {
         ...progress.progress,
         lesson: progress.lesson,
       } : null
     }),
 
-  updateProgress: procedure
+  updateProgress: os
     .input(
       z.object({
         lessonId: z.number(),
@@ -64,7 +64,7 @@ export const progressRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       // Check if progress exists
       const [existing] = await db
         .select()
@@ -90,7 +90,7 @@ export const progressRouter = router({
           })
           .where(eq(userProgress.id, existing.id))
           .returning()
-        
+
         return updated
       } else {
         // Create
@@ -105,24 +105,24 @@ export const progressRouter = router({
             completedAt: input.completed ? new Date() : null,
           })
           .returning()
-        
+
         return created
       }
     }),
 
-  getStreak: procedure
+  getStreak: os
     .use(requireAuth)
-    .query(async ({ ctx }) => {
+    .handler(async ({ context: ctx }) => {
       const [streak] = await db
         .select()
         .from(streaks)
         .where(eq(streaks.userId, ctx.user.id))
         .limit(1)
-      
+
       return streak || {
         currentStreak: 0,
         longestStreak: 0,
         lastActivityDate: null,
       }
     }),
-})
+}

@@ -1,6 +1,7 @@
 import { HeadContent, Scripts, Outlet, createRootRoute } from '@tanstack/react-router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/orpc-query'
+import '@/styles/globals.css'
 
 export const Route = createRootRoute({
   head: () => ({

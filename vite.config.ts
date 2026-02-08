@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => {
           persist: true,
         })
       ] : []),
-      tailwindcss(),
+      // tailwindcss(),
       tanstackStart({
         srcDirectory: "src",
         start: { entry: "./start.tsx" },

@@ -1,27 +1,27 @@
-import { router, procedure } from '@orpc/server'
+import { os } from '@orpc/server'
 import { z } from 'zod'
 import { db, users, courses, lessons } from '../../db'
 import { eq, desc, count, sql } from 'drizzle-orm'
 import { requireAuth, requireAdmin } from '../middleware'
 
-export const adminRouter = router({
-  getPlatformStats: procedure
+export const adminRouter = {
+  getPlatformStats: os
     .use(requireAuth)
     .use(requireAdmin)
-    .query(async ({ ctx }) => {
+    .handler(async ({ context: ctx }) => {
       const [totalUsersResult] = await db
         .select({ count: count() })
         .from(users)
-      
+
       const [activeUsersResult] = await db
         .select({ count: count() })
         .from(users)
         .where(eq(users.isActive, true))
-      
+
       const [totalCoursesResult] = await db
         .select({ count: count() })
         .from(courses)
-      
+
       const [totalLessonsResult] = await db
         .select({ count: count() })
         .from(lessons)
@@ -34,7 +34,7 @@ export const adminRouter = router({
       }
     }),
 
-  getUsers: procedure
+  getUsers: os
     .input(
       z.object({
         limit: z.number().default(50),
@@ -43,7 +43,7 @@ export const adminRouter = router({
     )
     .use(requireAuth)
     .use(requireAdmin)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const userList = await db
         .select()
         .from(users)
@@ -52,4 +52,4 @@ export const adminRouter = router({
         .offset(input?.offset || 0)
       return userList
     }),
-})
+}

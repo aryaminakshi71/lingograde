@@ -1,13 +1,13 @@
-import { router, procedure } from '@orpc/server'
+import { os } from '@orpc/server'
 import { z } from 'zod'
 import { db, languages, courses, units, lessons, exercises } from '../../db'
 import { eq, and, desc, asc } from 'drizzle-orm'
 import { requireAuth } from '../middleware'
 import { cache } from '../../lib/redis'
 
-export const lessonsRouter = router({
-  getLanguages: procedure
-    .query(async ({ input }) => {
+export const lessonsRouter = {
+  getLanguages: os
+    .handler(async ({ input }) => {
       // Cache languages (24 hour TTL - rarely changes)
       return cache.getOrCache(
         'languages:active',
@@ -23,7 +23,7 @@ export const lessonsRouter = router({
       )
     }),
 
-  getCourses: procedure
+  getCourses: os
     .input(
       z.object({
         languageId: z.number().optional(),
@@ -32,15 +32,15 @@ export const lessonsRouter = router({
       }).optional()
     )
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       // Cache courses list (1 hour TTL)
       const cacheKey = `courses:${JSON.stringify(input || {})}`;
-      
+
       return cache.getOrCache(
         cacheKey,
         async () => {
           const conditions = [eq(courses.isPublished, true)]
-          
+
           if (input?.languageId) {
             conditions.push(eq(courses.languageId, input.languageId))
           }
@@ -52,31 +52,34 @@ export const lessonsRouter = router({
           }
 
           const result = await db
-        .select({
-          course: courses,
-          language: languages,
-        })
-        .from(courses)
-        .innerJoin(languages, eq(courses.languageId, languages.id))
-        .where(and(...conditions))
-        .orderBy(desc(courses.createdAt))
-      
-      return result.map(r => ({
-        ...r.course,
-        language: r.language,
-      }))
+            .select({
+              course: courses,
+              language: languages,
+            })
+            .from(courses)
+            .innerJoin(languages, eq(courses.languageId, languages.id))
+            .where(and(...conditions))
+            .orderBy(desc(courses.createdAt))
+
+          return result.map(r => ({
+            ...r.course,
+            language: r.language,
+          }))
+        },
+        3600 // 1 hour
+      )
     }),
 
-  getCourse: procedure
+  getCourse: os
     .input(z.object({ id: z.number() }))
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [course] = await db
         .select()
         .from(courses)
         .where(eq(courses.id, input.id))
         .limit(1)
-      
+
       if (!course) {
         throw new Error('Course not found')
       }
@@ -114,16 +117,16 @@ export const lessonsRouter = router({
       }
     }),
 
-  getLesson: procedure
+  getLesson: os
     .input(z.object({ id: z.number() }))
     .use(requireAuth)
-    .query(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [lesson] = await db
         .select()
         .from(lessons)
         .where(eq(lessons.id, input.id))
         .limit(1)
-      
+
       if (!lesson) {
         throw new Error('Lesson not found')
       }
@@ -153,4 +156,4 @@ export const lessonsRouter = router({
         exercises: lessonExercises,
       }
     }),
-})
+}

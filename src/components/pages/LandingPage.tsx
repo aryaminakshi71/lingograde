@@ -5,8 +5,9 @@ import { useNavigate, Link } from '@tanstack/react-router'
 import { CommandPalette } from '@shared/saas-core'
 import { GraduationCap, BookOpen, Brain, Check, Zap, ArrowRight, CreditCard, Shield, Globe, BarChart3, FileText, ChevronDown } from 'lucide-react'
 import { LANGUAGES } from '../../lib/languages'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { orpc } from '../../lib/orpc-query'
+import toast from 'react-hot-toast'
 
 // Feature cards
 const features = [
@@ -42,11 +43,29 @@ const features = [
 
 export default function LandingPage() {
   const navigate = useNavigate()
-  const [commandOpen, setCommandOpen] = useState(false)
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null)
 
   // Fetch languages from API
-  const { data: apiLanguages, isLoading } = useQuery(orpc.lessons.getLanguages.queryOptions())
+  const { data: apiLanguages } = useQuery(orpc.lessons.getLanguages.queryOptions())
+
+  const demoLoginMutation = useMutation(
+    orpc.auth.demoLogin.mutationOptions({
+      onSuccess: () => {
+        toast.success('Entering demo mode...')
+        navigate({ to: '/dashboard' })
+      },
+      onError: (error) => {
+        console.error('Demo error:', error)
+        toast.error('Demo mode failed. Redirecting to login.')
+        navigate({ to: '/login' })
+      },
+    })
+  )
+
+  const handleDemoClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    demoLoginMutation.mutate()
+  }
 
   // Merge API languages with static data
   const displayLanguages = LANGUAGES.map(lang => {
@@ -70,17 +89,23 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2 no-underline">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200/50">
                 <GraduationCap className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">LingoGrade</span>
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">LingoGrade</span>
             </Link>
             <div className="flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 font-medium hover:text-gray-900 no-underline hidden md:block">Features</a>
-              <a href="#languages" className="text-gray-600 font-medium hover:text-gray-900 no-underline hidden md:block">Languages</a>
-              <a href="#pricing" className="text-gray-600 font-medium hover:text-gray-900 no-underline hidden md:block">Pricing</a>
-              <Link to="/demo" className="text-gray-600 font-medium hover:text-gray-900 no-underline">Try Demo</Link>
-              <Link to="/login" className="text-gray-600 font-medium hover:text-gray-900 no-underline">Sign In</Link>
+              <a href="#features" className="text-gray-600 font-medium hover:text-emerald-600 transition-colors no-underline hidden md:block">Features</a>
+              <a href="#languages" className="text-gray-600 font-medium hover:text-emerald-600 transition-colors no-underline hidden md:block">Languages</a>
+              <a href="#pricing" className="text-gray-600 font-medium hover:text-emerald-600 transition-colors no-underline hidden md:block">Pricing</a>
+              <button
+                onClick={handleDemoClick}
+                disabled={demoLoginMutation.isPending}
+                className="text-gray-600 font-medium hover:text-emerald-600 transition-colors no-underline bg-transparent border-none cursor-pointer disabled:opacity-50"
+              >
+                {demoLoginMutation.isPending ? 'Entering...' : 'Try Demo'}
+              </button>
+              <Link to="/login" className="text-gray-600 font-medium hover:text-emerald-600 transition-colors no-underline">Sign In</Link>
             </div>
           </div>
         </div>
@@ -88,15 +113,48 @@ export default function LandingPage() {
 
       <main>
         {/* Hero Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50 to-white">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+        <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-teal-100/50 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+          <div className="max-w-7xl mx-auto text-center relative">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-sm font-medium mb-8 border border-emerald-100 animate-fade-in text-decoration-none">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Next-Gen Language Learning</span>
+            </div>
+
+            <h1 className="text-6xl md:text-7xl font-extrabold text-gray-900 mb-8 tracking-tight leading-tight">
               Master Any Language with
-              <span className="text-emerald-600"> AI-Powered Learning</span>
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500 py-2">
+                AI-Powered Precision
+              </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Learn 10+ languages with personalized lessons, speech recognition, and real-time feedback. Start your journey today.
+
+            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              Experience the future of fluency. LingoGrade combines proven pedagogical techniques with
+              cutting-edge AI to provide real-time speech assessment and adaptive lesson paths.
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/register"
+                className="w-full sm:w-auto px-8 py-4 bg-emerald-600 text-white font-bold rounded-2xl shadow-xl shadow-emerald-200 hover:bg-emerald-700 hover:-translate-y-0.5 transition-all duration-300 no-underline"
+              >
+                Join for Free
+              </Link>
+              <button
+                onClick={handleDemoClick}
+                disabled={demoLoginMutation.isPending}
+                className="w-full sm:w-auto px-8 py-4 bg-white text-gray-900 font-bold rounded-2xl border border-gray-200 shadow-sm hover:border-emerald-200 hover:shadow-gray-200 transition-all duration-300 no-underline disabled:opacity-50"
+              >
+                {demoLoginMutation.isPending ? 'Loading Demo...' : 'Quick Demo'}
+              </button>
+            </div>
+
+            <div className="mt-16 flex items-center justify-center space-x-8 text-gray-400">
+              <p className="text-sm font-medium uppercase tracking-widest">Trusted by learners globally</p>
+            </div>
           </div>
         </section>
 
@@ -148,11 +206,10 @@ export default function LandingPage() {
                     e.preventDefault()
                     setSelectedLanguage(lang.code)
                   }}
-                  className={`group text-left bg-white rounded-2xl p-6 border-2 transition-all duration-300 hover:shadow-lg cursor-pointer ${
-                    selectedLanguage === lang.code
+                  className={`group text-left bg-white rounded-2xl p-6 border-2 transition-all duration-300 hover:shadow-lg cursor-pointer ${selectedLanguage === lang.code
                       ? 'border-emerald-500 shadow-lg'
                       : 'border-gray-100 hover:border-emerald-200'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start gap-4 mb-4">
                     <div className="text-4xl">{lang.flag}</div>
@@ -281,27 +338,27 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              <div className="bg-emerald-600 rounded-2xl p-8 border-2 border-emerald-600 relative">
+              <div className="bg-emerald-600 rounded-2xl p-8 border-2 border-emerald-600 relative text-white">
                 <div className="absolute top-0 right-0 bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-2xl">
                   POPULAR
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
-                <div className="text-4xl font-bold text-white mb-4">$19.99<span className="text-lg text-emerald-100">/month</span></div>
-                <p className="text-emerald-100 mb-6">Best for serious learners</p>
+                <h3 className="text-2xl font-bold mb-2">Pro</h3>
+                <div className="text-4xl font-bold mb-4">$19.99<span className="text-lg opacity-80">/month</span></div>
+                <p className="opacity-90 mb-6">Best for serious learners</p>
                 <ul className="space-y-3 mb-8">
-                  <li className="flex items-center gap-2 text-white">
+                  <li className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>Unlimited lessons</span>
                   </li>
-                  <li className="flex items-center gap-2 text-white">
+                  <li className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>AI-powered learning</span>
                   </li>
-                  <li className="flex items-center gap-2 text-white">
+                  <li className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>Speech recognition</span>
                   </li>
-                  <li className="flex items-center gap-2 text-white">
+                  <li className="flex items-center gap-2">
                     <Check className="w-5 h-5" />
                     <span>Offline mode</span>
                   </li>

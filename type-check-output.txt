@@ -1,0 +1,81 @@
+
+> lingograde@1.0.0 type-check
+> tsc --noEmit
+
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(29,14): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(29,18): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(29,31): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(29,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(30,14): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(30,33): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(30,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(31,10): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(33,23): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(33,26): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(33,30): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(34,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(34,30): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(34,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(35,10): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(36,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(54,15): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(54,19): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(54,32): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(54,37): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(65,14): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(65,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(66,20): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(67,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(67,30): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(67,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(68,10): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(69,14): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(69,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(70,23): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(71,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(71,30): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(71,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(72,10): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(73,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(88,13): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(88,21): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(89,16): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(89,20): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(89,29): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(89,50): error TS1109: Expression expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(90,17): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(90,21): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(90,38): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/integration-test-example.template.ts(91,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(12,25): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(12,40): error TS1109: Expression expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(19,12): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(19,16): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(19,38): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(20,12): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(20,36): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(21,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(30,12): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(30,16): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(30,29): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(30,34): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(31,12): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(31,31): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(31,34): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(32,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(42,15): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(42,32): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(42,35): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(42,50): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(43,8): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(54,20): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(54,27): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(54,48): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/unit-test-example.template.ts(54,51): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(31,8): error TS1005: '>' expected.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(31,12): error TS1005: ')' expected.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(31,20): error TS1005: ',' expected.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(33,6): error TS1161: Unterminated regular expression literal.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(35,1): error TS1109: Expression expected.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(35,2): error TS1128: Declaration or statement expected.
+shared-saas-core/shared-templates/testing/vitest-setup.template.ts(35,3): error TS1128: Declaration or statement expected.

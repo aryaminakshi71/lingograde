@@ -1,5 +1,6 @@
 import handler from "@tanstack/react-start/server-entry";
 import type { getRouter } from "./router";
+import { rpcHandler } from "./server/rpc-handler";
 
 export interface CloudflareRequestContext {
   cloudflare: {
@@ -44,9 +45,17 @@ export default {
           }
         );
       }
-      
-      // Other API routes are handled by the RPC handler
-      // This will be handled by the route handler
+
+      // Handle RPC requests
+      if (url.pathname.startsWith("/api/rpc")) {
+        return rpcHandler(request);
+      }
+
+      // Handle Auth requests
+      if (url.pathname.startsWith("/api/auth")) {
+        const { auth } = await import("./server/auth");
+        return auth.handler(request);
+      }
     }
 
     return handler.fetch(request, {

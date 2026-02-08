@@ -8,13 +8,17 @@ const getRpcUrl = () => {
   if (envUrl && typeof envUrl === 'string' && envUrl.trim() !== '') {
     return envUrl.trim()
   }
-  // Default to relative path for same-origin requests
-  return '/api/rpc'
+  // Check for server-side execution
+  if (typeof window === 'undefined') {
+    return 'http://localhost:3009/api/rpc'
+  }
+  // Client-side - construct absolute URL
+  return new URL('/api/rpc', window.location.origin).toString()
 }
 
 const link = new RPCLink({
   url: getRpcUrl(),
-  fetch: typeof window !== 'undefined' ? window.fetch : fetch,
+  fetch: typeof window !== 'undefined' ? window.fetch.bind(window) : fetch,
 })
 
 export const orpcClient = createORPCClient<AppRouter>(link)

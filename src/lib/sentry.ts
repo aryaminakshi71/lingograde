@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node'
 
 const isConfigured = !!process.env.SENTRY_DSN
 
-if (!isConfigured && shouldWarnMissing) {
+if (!isConfigured && process.env.NODE_ENV === 'development') {
   console.warn('SENTRY_DSN not set - Error tracking disabled')
 }
 

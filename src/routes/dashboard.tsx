@@ -2,21 +2,16 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { DashboardPage } from '@shared/saas-core'
 import { useQuery } from '@tanstack/react-query'
 import { orpc } from '../lib/orpc-query'
+import { LINGOGRADE_NAV_ITEMS } from '../lib/navigation'
 
 export const Route = createFileRoute('/dashboard')({
   beforeLoad: async () => {
-    // Check if user is authenticated
     try {
       const session = await orpc.auth.getSession.query()
       if (!session) {
         throw redirect({ to: '/login' })
       }
-    } catch (error) {
-      // If it's a redirect, rethrow it
-      if (error && typeof error === 'object' && 'to' in error) {
-        throw error
-      }
-      // Otherwise redirect to login
+    } catch {
       throw redirect({ to: '/login' })
     }
   },
@@ -31,6 +26,8 @@ function Dashboard() {
       appName="LingoGrade"
       themeColor="#10b981"
       themeColorSecondary="#14b8a6"
+      navItems={LINGOGRADE_NAV_ITEMS}
+      activeNavItem="/dashboard"
     >
       {stats && (
         <div className="p-6">

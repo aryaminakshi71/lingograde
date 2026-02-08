@@ -1,4 +1,4 @@
-import { router, procedure } from '@orpc/server'
+import { os } from '@orpc/server'
 import { z } from 'zod'
 import { db, subscriptions, users } from '../../db'
 import { eq, and, desc } from 'drizzle-orm'
@@ -22,9 +22,9 @@ const PLAN_PRICES: Record<string, string> = {
   enterprise: STRIPE_CONFIG.prices.enterpriseMonthly,
 }
 
-export const subscriptionRouter = router({
+export const subscriptionRouter = {
   // Get current subscription
-  getSubscription: procedure.use(requireAuth).query(async ({ ctx }) => {
+  getSubscription: os.use(requireAuth).handler(async ({ context: ctx }) => {
     const [subscription] = await db
       .select()
       .from(subscriptions)
@@ -40,7 +40,7 @@ export const subscriptionRouter = router({
   }),
 
   // Create checkout session for subscription
-  createCheckout: procedure
+  createCheckout: os
     .input(
       z.object({
         tier: z.enum(['pro', 'team', 'enterprise']),
@@ -49,7 +49,7 @@ export const subscriptionRouter = router({
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       if (!stripe) {
         throw new Error('Stripe is not configured')
       }
@@ -106,14 +106,14 @@ export const subscriptionRouter = router({
     }),
 
   // Create billing portal session
-  createPortal: procedure
+  createPortal: os
     .input(
       z.object({
         returnUrl: z.string().url(),
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       if (!stripe) {
         throw new Error('Stripe is not configured')
       }
@@ -145,7 +145,7 @@ export const subscriptionRouter = router({
     }),
 
   // Cancel subscription
-  cancel: procedure.use(requireAuth).mutation(async ({ ctx }) => {
+  cancel: os.use(requireAuth).handler(async ({ context: ctx }) => {
     try {
       const [subscription] = await db
         .select()
@@ -192,7 +192,7 @@ export const subscriptionRouter = router({
   }),
 
   // Sync subscription from Stripe (webhook or manual)
-  sync: procedure.use(requireAuth).mutation(async ({ ctx }) => {
+  sync: os.use(requireAuth).handler(async ({ context: ctx }) => {
     try {
       const [subscription] = await db
         .select()
@@ -233,14 +233,14 @@ export const subscriptionRouter = router({
   }),
 
   // Update subscription (legacy - for non-Stripe updates)
-  updateSubscription: procedure
+  updateSubscription: os
     .input(
       z.object({
         tier: z.enum(['free', 'pro', 'team', 'enterprise']),
       })
     )
     .use(requireAuth)
-    .mutation(async ({ input, ctx }) => {
+    .handler(async ({ input, context: ctx }) => {
       const [existing] = await db
         .select()
         .from(subscriptions)
@@ -283,7 +283,7 @@ export const subscriptionRouter = router({
     }),
 
   // Get available plans
-  getPlans: procedure.query(() => {
+  getPlans: os.handler(() => {
     return [
       {
         id: 'free',
@@ -340,4 +340,4 @@ export const subscriptionRouter = router({
       },
     ]
   }),
-})
+}

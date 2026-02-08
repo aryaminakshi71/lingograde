@@ -1,8 +1,8 @@
-import { middleware } from '@orpc/server'
+import { os } from '@orpc/server'
 import { auth } from './auth'
 import { getAppUser } from './user-helper'
 
-export const requireAuth = middleware(async ({ ctx, next }) => {
+export const requireAuth = os.middleware(async ({ context: ctx, next }) => {
   const session = await auth.api.getSession({
     headers: ctx.headers,
   })
@@ -15,7 +15,7 @@ export const requireAuth = middleware(async ({ ctx, next }) => {
   const appUser = await getAppUser(session.user.id, session.user.email)
 
   return next({
-    ctx: {
+    context: {
       ...ctx,
       user: appUser, // Use app user with integer ID
       betterAuthUser: session.user, // Keep Better Auth user for reference
@@ -24,12 +24,12 @@ export const requireAuth = middleware(async ({ ctx, next }) => {
   })
 })
 
-export const requireAdmin = middleware(async ({ ctx, next }) => {
+export const requireAdmin = os.middleware(async ({ context: ctx, next }) => {
   // Check if user is admin
   // This depends on your user model structure
   if (!ctx.user || (ctx.user as any).role !== 'admin') {
     throw new Error('Forbidden: Admin access required')
   }
 
-  return next({ ctx })
+  return next({ context: ctx })
 })

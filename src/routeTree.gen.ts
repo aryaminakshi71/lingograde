@@ -9,11 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WriteRouteImport } from './routes/write'
+import { Route as TeamRouteImport } from './routes/team'
+import { Route as ReviewRouteImport } from './routes/review'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as QuestsRouteImport } from './routes/quests'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as PracticeRouteImport } from './routes/practice'
+import { Route as MobileRouteImport } from './routes/mobile'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LiveClassesRouteImport } from './routes/live-classes'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as ImmersiveRouteImport } from './routes/immersive'
+import { Route as ExamRouteImport } from './routes/exam'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContentRouteImport } from './routes/content'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CertificatesRouteImport } from './routes/certificates'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AchievementsRouteImport } from './routes/achievements'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardUsersRouteImport } from './routes/dashboard/users'
 import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
@@ -21,14 +37,69 @@ import { Route as DashboardReportsRouteImport } from './routes/dashboard/reports
 import { Route as DashboardBillingRouteImport } from './routes/dashboard/billing'
 import { Route as DashboardAnalyticsRouteImport } from './routes/dashboard/analytics'
 
+const WriteRoute = WriteRouteImport.update({
+  id: '/write',
+  path: '/write',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewRoute = ReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuestsRoute = QuestsRouteImport.update({
+  id: '/quests',
+  path: '/quests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MobileRoute = MobileRouteImport.update({
+  id: '/mobile',
+  path: '/mobile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveClassesRoute = LiveClassesRouteImport.update({
+  id: '/live-classes',
+  path: '/live-classes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImmersiveRoute = ImmersiveRouteImport.update({
+  id: '/immersive',
+  path: '/immersive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamRoute = ExamRouteImport.update({
+  id: '/exam',
+  path: '/exam',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoRoute = DemoRouteImport.update({
@@ -41,9 +112,34 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificatesRoute = CertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -79,11 +175,27 @@ const DashboardAnalyticsRoute = DashboardAnalyticsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/achievements': typeof AchievementsRoute
   '/admin': typeof AdminRoute
+  '/certificates': typeof CertificatesRoute
+  '/community': typeof CommunityRoute
+  '/content': typeof ContentRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/demo': typeof DemoRoute
+  '/exam': typeof ExamRoute
+  '/immersive': typeof ImmersiveRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/live-classes': typeof LiveClassesRoute
   '/login': typeof LoginRoute
+  '/mobile': typeof MobileRoute
+  '/practice': typeof PracticeRoute
+  '/progress': typeof ProgressRoute
+  '/quests': typeof QuestsRoute
   '/register': typeof RegisterRoute
+  '/review': typeof ReviewRoute
+  '/team': typeof TeamRoute
+  '/write': typeof WriteRoute
   '/dashboard/analytics': typeof DashboardAnalyticsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/reports': typeof DashboardReportsRoute
@@ -92,11 +204,27 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/achievements': typeof AchievementsRoute
   '/admin': typeof AdminRoute
+  '/certificates': typeof CertificatesRoute
+  '/community': typeof CommunityRoute
+  '/content': typeof ContentRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/demo': typeof DemoRoute
+  '/exam': typeof ExamRoute
+  '/immersive': typeof ImmersiveRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/live-classes': typeof LiveClassesRoute
   '/login': typeof LoginRoute
+  '/mobile': typeof MobileRoute
+  '/practice': typeof PracticeRoute
+  '/progress': typeof ProgressRoute
+  '/quests': typeof QuestsRoute
   '/register': typeof RegisterRoute
+  '/review': typeof ReviewRoute
+  '/team': typeof TeamRoute
+  '/write': typeof WriteRoute
   '/dashboard/analytics': typeof DashboardAnalyticsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/reports': typeof DashboardReportsRoute
@@ -106,11 +234,27 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/achievements': typeof AchievementsRoute
   '/admin': typeof AdminRoute
+  '/certificates': typeof CertificatesRoute
+  '/community': typeof CommunityRoute
+  '/content': typeof ContentRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/demo': typeof DemoRoute
+  '/exam': typeof ExamRoute
+  '/immersive': typeof ImmersiveRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/live-classes': typeof LiveClassesRoute
   '/login': typeof LoginRoute
+  '/mobile': typeof MobileRoute
+  '/practice': typeof PracticeRoute
+  '/progress': typeof ProgressRoute
+  '/quests': typeof QuestsRoute
   '/register': typeof RegisterRoute
+  '/review': typeof ReviewRoute
+  '/team': typeof TeamRoute
+  '/write': typeof WriteRoute
   '/dashboard/analytics': typeof DashboardAnalyticsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/reports': typeof DashboardReportsRoute
@@ -121,11 +265,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/accessibility'
+    | '/achievements'
     | '/admin'
+    | '/certificates'
+    | '/community'
+    | '/content'
     | '/dashboard'
     | '/demo'
+    | '/exam'
+    | '/immersive'
+    | '/leaderboard'
+    | '/live-classes'
     | '/login'
+    | '/mobile'
+    | '/practice'
+    | '/progress'
+    | '/quests'
     | '/register'
+    | '/review'
+    | '/team'
+    | '/write'
     | '/dashboard/analytics'
     | '/dashboard/billing'
     | '/dashboard/reports'
@@ -134,11 +294,27 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/accessibility'
+    | '/achievements'
     | '/admin'
+    | '/certificates'
+    | '/community'
+    | '/content'
     | '/dashboard'
     | '/demo'
+    | '/exam'
+    | '/immersive'
+    | '/leaderboard'
+    | '/live-classes'
     | '/login'
+    | '/mobile'
+    | '/practice'
+    | '/progress'
+    | '/quests'
     | '/register'
+    | '/review'
+    | '/team'
+    | '/write'
     | '/dashboard/analytics'
     | '/dashboard/billing'
     | '/dashboard/reports'
@@ -147,11 +323,27 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/accessibility'
+    | '/achievements'
     | '/admin'
+    | '/certificates'
+    | '/community'
+    | '/content'
     | '/dashboard'
     | '/demo'
+    | '/exam'
+    | '/immersive'
+    | '/leaderboard'
+    | '/live-classes'
     | '/login'
+    | '/mobile'
+    | '/practice'
+    | '/progress'
+    | '/quests'
     | '/register'
+    | '/review'
+    | '/team'
+    | '/write'
     | '/dashboard/analytics'
     | '/dashboard/billing'
     | '/dashboard/reports'
@@ -161,15 +353,52 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessibilityRoute: typeof AccessibilityRoute
+  AchievementsRoute: typeof AchievementsRoute
   AdminRoute: typeof AdminRoute
+  CertificatesRoute: typeof CertificatesRoute
+  CommunityRoute: typeof CommunityRoute
+  ContentRoute: typeof ContentRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   DemoRoute: typeof DemoRoute
+  ExamRoute: typeof ExamRoute
+  ImmersiveRoute: typeof ImmersiveRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  LiveClassesRoute: typeof LiveClassesRoute
   LoginRoute: typeof LoginRoute
+  MobileRoute: typeof MobileRoute
+  PracticeRoute: typeof PracticeRoute
+  ProgressRoute: typeof ProgressRoute
+  QuestsRoute: typeof QuestsRoute
   RegisterRoute: typeof RegisterRoute
+  ReviewRoute: typeof ReviewRoute
+  TeamRoute: typeof TeamRoute
+  WriteRoute: typeof WriteRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/write': {
+      id: '/write'
+      path: '/write'
+      fullPath: '/write'
+      preLoaderRoute: typeof WriteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review': {
+      id: '/review'
+      path: '/review'
+      fullPath: '/review'
+      preLoaderRoute: typeof ReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -177,11 +406,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quests': {
+      id: '/quests'
+      path: '/quests'
+      fullPath: '/quests'
+      preLoaderRoute: typeof QuestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mobile': {
+      id: '/mobile'
+      path: '/mobile'
+      fullPath: '/mobile'
+      preLoaderRoute: typeof MobileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-classes': {
+      id: '/live-classes'
+      path: '/live-classes'
+      fullPath: '/live-classes'
+      preLoaderRoute: typeof LiveClassesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/immersive': {
+      id: '/immersive'
+      path: '/immersive'
+      fullPath: '/immersive'
+      preLoaderRoute: typeof ImmersiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exam': {
+      id: '/exam'
+      path: '/exam'
+      fullPath: '/exam'
+      preLoaderRoute: typeof ExamRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo': {
@@ -198,11 +483,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certificates': {
+      id: '/certificates'
+      path: '/certificates'
+      fullPath: '/certificates'
+      preLoaderRoute: typeof CertificatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -272,11 +592,27 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessibilityRoute: AccessibilityRoute,
+  AchievementsRoute: AchievementsRoute,
   AdminRoute: AdminRoute,
+  CertificatesRoute: CertificatesRoute,
+  CommunityRoute: CommunityRoute,
+  ContentRoute: ContentRoute,
   DashboardRoute: DashboardRouteWithChildren,
   DemoRoute: DemoRoute,
+  ExamRoute: ExamRoute,
+  ImmersiveRoute: ImmersiveRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  LiveClassesRoute: LiveClassesRoute,
   LoginRoute: LoginRoute,
+  MobileRoute: MobileRoute,
+  PracticeRoute: PracticeRoute,
+  ProgressRoute: ProgressRoute,
+  QuestsRoute: QuestsRoute,
   RegisterRoute: RegisterRoute,
+  ReviewRoute: ReviewRoute,
+  TeamRoute: TeamRoute,
+  WriteRoute: WriteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
